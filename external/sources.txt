@@ -1,1 +1,1 @@
-http://tukaani.org/xz/xz-5.2.2.tar.gz
+https://github.com/zdenop/tesseract-mingw/archive/master.tar.gz
