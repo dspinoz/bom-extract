@@ -19,3 +19,8 @@ missing
 .deps
 stamp-h1
 
+*.a
+*.o
+*.exe
+
+external

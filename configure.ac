@@ -14,6 +14,7 @@ AC_CONFIG_HEADERS([config.h])
 AC_CHECK_HEADERS([stdio.h])
 
 AC_CONFIG_FILES([Makefile
+                 external/Makefile
                  src/common/Makefile
                  src/Makefile
                  ])
