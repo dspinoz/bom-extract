@@ -1,4 +1,5 @@
-Hello World using autoconf tools
+# BOM Extract
 
-Use buildall to regenerate from source
+* utility to extract Bill of Materials from PDF documents
+
 

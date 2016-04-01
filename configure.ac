@@ -1,6 +1,6 @@
 
 
-AC_INIT([Hello World], [1.0])
+AC_INIT([BOM Extract], [0.1])
 AM_INIT_AUTOMAKE
 
 AC_PROG_CC
@@ -19,24 +19,3 @@ AC_CONFIG_FILES([Makefile
                  ])
 
 AC_OUTPUT
-echo \
-"-------------------------------------------------
-
- ${PACKAGE_NAME} Version ${PACKAGE_VERSION}
-
- Prefix: '${prefix}'.
- Compiler: '${CC} ${CFLAGS} ${CPPFLAGS}'
- Libraries: '${LIBS}'
-
- Package features:
-    None (yet)
-
- Now type 'make @<:@<target>@:>@'
-   where the optional <target> is:
-     all                - build all binaries
-     install            - install everything
-     check              - run unit tests
-     dist               - build distribution tarball
-     distcheck          - build, run tests and generate distribution tar
-
---------------------------------------------------"
