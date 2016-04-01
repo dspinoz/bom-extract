@@ -1,7 +1,7 @@
 
 TOP=$(shell pwd)/dist
 
-bin_SCRIPTS = $(TOP)/bin/tesseract.exe
+bin_SCRIPTS = $(TOP)/bin/tesseract.exe 
 
 $(TOP)/bin/tesseract.exe: tesseract-mingw-master.tar.gz
 	tar xf $<
