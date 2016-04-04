@@ -1,7 +1,10 @@
 
 TOP=$(shell pwd)/dist
 
-bin_SCRIPTS = $(TOP)/bin/tesseract.exe $(TOP)/lib/libpthread.a $(TOP)/lib/liblzma.a
+bin_SCRIPTS = $(TOP)/bin/tesseract.exe \
+	$(TOP)/lib/libpthread.a \
+	$(TOP)/lib/libz.a \
+	$(TOP)/lib/liblzma.a
 
 tesseract-mingw-master.tar.gz: download.sh
 	./download.sh
@@ -22,6 +25,13 @@ $(TOP)/lib/libpthread.a: pthreads-w32-2-8-0-release.tar.gz
 	cd $($@_DIR) && CFLAGS="-DHAVE_STRUCT_TIMESPEC" CPPFLAGS="-DPTW32_STATIC_LIB" make clean GC-static
 	cd $($@_DIR) && cp -iv pthread.h semaphore.h sched.h $(TOP)/include
 	cd $($@_DIR) && cp -iv libpthreadGC2.a $(TOP)/lib/libpthread.a
+	
+$(TOP)/lib/libz.a: zlib-1.2.8.tar.gz
+	$(eval $@_DIR := $(basename $(basename $(notdir $<))) )
+	rm -rf $($@_DIR)
+	tar xf $<
+	cd $($@_DIR) && make -f win32/Makefile.gcc
+	cd $($@_DIR) && DESTDIR=$(TOP) LIBRARY_PATH=/lib BINARY_PATH=/bin INCLUDE_PATH=/include make -f win32/Makefile.gcc install
 	
 $(TOP)/lib/liblzma.a: xz-5.2.2.tar.gz
 	$(eval $@_DIR := $(basename $(basename $(notdir $<))) )
