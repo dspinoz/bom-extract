@@ -20,6 +20,8 @@ $(TOP)/lib/libpthread.a: pthreads-w32-2-8-0-release.tar.gz
 	tar xf $<
 	cd $($@_DIR) && patch -p1 < ../pthreads-w32.patch
 	cd $($@_DIR) && CFLAGS="-DHAVE_STRUCT_TIMESPEC" CPPFLAGS="-DPTW32_STATIC_LIB" make clean GC-static
+	cd $($@_DIR) && cp -iv pthread.h semaphore.h sched.h $(TOP)/include
+	cd $($@_DIR) && cp -iv libpthreadGC2.a $(TOP)/lib/libpthread.a
 	
 $(TOP)/lib/liblzma.a: xz-5.2.2.tar.gz
 	tar xf $<
