@@ -3,7 +3,11 @@ TOP=$(shell pwd)/dist
 
 bin_SCRIPTS = $(TOP)/bin/tesseract.exe 
 
+tesseract-mingw-master.tar.gz: download.sh
+	./download.sh
+
 $(TOP)/bin/tesseract.exe: tesseract-mingw-master.tar.gz
+	rm -rf tesseract-mingw-master $(TOP)
 	tar xf $<
 	$(eval $@_DIR := $(basename $(basename $(notdir $<))) )
 	mv $($@_DIR) $(TOP)

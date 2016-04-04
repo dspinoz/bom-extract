@@ -1,1 +1,1 @@
-https://github.com/zdenop/tesseract-mingw/archive/master.tar.gz
+tesseract-mingw-master.tar.gz https://github.com/zdenop/tesseract-mingw/archive/master.tar.gz
