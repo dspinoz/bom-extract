@@ -1,7 +1,7 @@
 
 TOP=$(shell pwd)/dist
 
-bin_SCRIPTS = $(TOP)/bin/tesseract.exe $(TOP)/lib/libpthread.a
+bin_SCRIPTS = $(TOP)/bin/tesseract.exe $(TOP)/lib/libpthread.a $(TOP)/lib/liblzma.a
 
 tesseract-mingw-master.tar.gz: download.sh
 	./download.sh
@@ -24,8 +24,9 @@ $(TOP)/lib/libpthread.a: pthreads-w32-2-8-0-release.tar.gz
 	cd $($@_DIR) && cp -iv libpthreadGC2.a $(TOP)/lib/libpthread.a
 	
 $(TOP)/lib/liblzma.a: xz-5.2.2.tar.gz
-	tar xf $<
 	$(eval $@_DIR := $(basename $(basename $(notdir $<))) )
+	rm -rf $($@_DIR)
+	tar xf $<
 	cd $($@_DIR) && ./configure --prefix=$(TOP)
 	cd $($@_DIR) && make
 	cd $($@_DIR) && make install
