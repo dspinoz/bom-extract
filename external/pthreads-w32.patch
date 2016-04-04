@@ -1,0 +1,53 @@
+--- pthreads-w32-2-8-0-release.orig/sched.h	2005-04-01 11:25:21 +1030
++++ pthreads-w32-2-8-0-release/sched.h	2016-04-04 16:47:02 +0930
+@@ -119,6 +119,8 @@
+ #  include <sys/types.h>
+ /* Required by Unix 98 */
+ #  include <time.h>
++#else
++typedef int pid_t;
+ #endif /* PTW32_LEVEL >= PTW32_LEVEL_MAX */
+ #else
+ typedef int pid_t;
+--- pthreads-w32-2-8-0-release.orig/pthread.h	2006-01-25 00:29:57 +1030
++++ pthreads-w32-2-8-0-release/pthread.h	2016-04-04 16:47:02 +0930
+@@ -189,6 +189,8 @@
+  * -------------------------------------------------------------
+  */
+ 
++#include <sys/types.h>
++
+ /* Try to avoid including windows.h */
+ #if defined(__MINGW32__) && defined(__cplusplus)
+ #define PTW32_INCLUDE_WINDOWS_H
+@@ -302,13 +304,13 @@
+ #endif
+ #endif
+ 
+-#ifndef HAVE_STRUCT_TIMESPEC
+-#define HAVE_STRUCT_TIMESPEC 1
+-struct timespec {
+-        long tv_sec;
+-        long tv_nsec;
+-};
+-#endif /* HAVE_STRUCT_TIMESPEC */
++//#ifndef HAVE_STRUCT_TIMESPEC
++//#define HAVE_STRUCT_TIMESPEC 1
++//struct timespec {
++//        long tv_sec;
++//        long tv_nsec;
++//};
++//#endif /* HAVE_STRUCT_TIMESPEC */
+ 
+ #ifndef SIG_BLOCK
+ #define SIG_BLOCK 0
+--- pthreads-w32-2-8-0-release.orig/semaphore.h	2005-04-01 11:25:21 +1030
++++ pthreads-w32-2-8-0-release/semaphore.h	2016-04-04 16:47:03 +0930
+@@ -36,6 +36,7 @@
+  *      if not, write to the Free Software Foundation, Inc.,
+  *      59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
+  */
++#include <sys/types.h>
+ #if !defined( SEMAPHORE_H )
+ #define SEMAPHORE_H
+ 

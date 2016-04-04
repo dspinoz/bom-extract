@@ -1,17 +1,25 @@
 
 TOP=$(shell pwd)/dist
 
-bin_SCRIPTS = $(TOP)/bin/tesseract.exe 
+bin_SCRIPTS = $(TOP)/bin/tesseract.exe $(TOP)/lib/libpthread.a
 
 tesseract-mingw-master.tar.gz: download.sh
 	./download.sh
 
 $(TOP)/bin/tesseract.exe: tesseract-mingw-master.tar.gz
 	rm -rf tesseract-mingw-master $(TOP)
-	tar xf $<
 	$(eval $@_DIR := $(basename $(basename $(notdir $<))) )
+	rm -rf $($@_DIR)
+	tar xf $<
 	mv $($@_DIR) $(TOP)
 	touch $(TOP)/bin/tesseract.exe
+	
+$(TOP)/lib/libpthread.a: pthreads-w32-2-8-0-release.tar.gz
+	$(eval $@_DIR := $(basename $(basename $(notdir $<))) )
+	rm -rf $($@_DIR)
+	tar xf $<
+	cd $($@_DIR) && patch -p1 < ../pthreads-w32.patch
+	cd $($@_DIR) && CFLAGS="-DHAVE_STRUCT_TIMESPEC" CPPFLAGS="-DPTW32_STATIC_LIB" make clean GC-static
 	
 $(TOP)/lib/liblzma.a: xz-5.2.2.tar.gz
 	tar xf $<
