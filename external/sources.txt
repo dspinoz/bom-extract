@@ -2,3 +2,4 @@ tesseract-mingw-master.tar.gz https://github.com/zdenop/tesseract-mingw/archive/
 pthreads-w32-2-8-0-release.tar.gz ftp://sourceware.org/pub/pthreads-win32/pthreads-w32-2-8-0-release.tar.gz
 xz-5.2.2.tar.gz http://tukaani.org/xz/xz-5.2.2.tar.gz
 zlib-1.2.8.tar.gz http://zlib.net/zlib-1.2.8.tar.gz
+libpng-1.5.26.tar.gz https://sourceforge.net/projects/libpng/files/libpng15/1.5.26/libpng-1.5.26.tar.gz/download

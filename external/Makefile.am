@@ -4,7 +4,8 @@ TOP=$(shell pwd)/dist
 bin_SCRIPTS = $(TOP)/bin/tesseract.exe \
 	$(TOP)/lib/libpthread.a \
 	$(TOP)/lib/libz.a \
-	$(TOP)/lib/liblzma.a
+	$(TOP)/lib/liblzma.a \
+	$(TOP)/lib/libpng.a
 
 tesseract-mingw-master.tar.gz: download.sh
 	./download.sh
@@ -38,5 +39,13 @@ $(TOP)/lib/liblzma.a: xz-5.2.2.tar.gz
 	rm -rf $($@_DIR)
 	tar xf $<
 	cd $($@_DIR) && ./configure --prefix=$(TOP)
+	cd $($@_DIR) && make
+	cd $($@_DIR) && make install
+
+$(TOP)/lib/libpng.a: libpng-1.5.26.tar.gz
+	$(eval $@_DIR := $(basename $(basename $(notdir $<))) )
+	rm -rf $($@_DIR)
+	tar xf $<
+	cd $($@_DIR) && ./configure --prefix=$(TOP) CFLAGS=-I$(TOP) LDFLAGS=-L$(TOP)
 	cd $($@_DIR) && make
 	cd $($@_DIR) && make install
