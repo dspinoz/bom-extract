@@ -10,7 +10,8 @@ bin_SCRIPTS = $(TOP)/bin/tesseract.exe \
 	$(TOP)/lib/libjpeg.a \
 	$(TOP)/lib/libjbig.a \
 	$(TOP)/lib/libtiff.a \
-	$(TOP)/lib/libwebp.a
+	$(TOP)/lib/libwebp.a \
+	$(TOP)/lib/liblept.a
 
 tesseract-mingw-master.tar.gz: download.sh
 	./download.sh
@@ -98,8 +99,15 @@ $(TOP)/lib/libwebp.a: libwebp-0.5.0.tar.gz
 	rm -rf $($@_DIR)
 	tar xf $<
 	cd $($@_DIR) && ./autogen.sh
-	cd $($@_DIR) && ./configure --prefix=$(TOP)  CFLAGS=-I$(TOP) LDFLAGS=-L$(TOP)
+	cd $($@_DIR) && ./configure --prefix=$(TOP) CFLAGS=-I$(TOP) LDFLAGS=-L$(TOP)
 	cd $($@_DIR) && make
 	cd $($@_DIR) && make install
 	
-	
+$(TOP)/lib/liblept.a: leptonica-1.73.tar.gz
+	$(eval $@_DIR := $(basename $(basename $(notdir $<))) )
+	rm -rf $($@_DIR)
+	tar xf $<
+	cd $($@_DIR) && ./autobuild
+	cd $($@_DIR) && ./configure --prefix=$(TOP)
+	cd $($@_DIR) && make
+	cd $($@_DIR) && make install
