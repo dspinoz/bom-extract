@@ -4,3 +4,4 @@ xz-5.2.2.tar.gz http://tukaani.org/xz/xz-5.2.2.tar.gz
 zlib-1.2.8.tar.gz http://zlib.net/zlib-1.2.8.tar.gz
 libpng-1.5.26.tar.gz https://sourceforge.net/projects/libpng/files/libpng15/1.5.26/libpng-1.5.26.tar.gz/download
 giflib-5.1.4.tar.gz https://sourceforge.net/projects/giflib/files/giflib-5.1.4.tar.gz/download
+jpeg-9b.tar.gz http://www.ijg.org/files/jpegsrc.v9b.tar.gz

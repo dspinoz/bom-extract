@@ -6,7 +6,8 @@ bin_SCRIPTS = $(TOP)/bin/tesseract.exe \
 	$(TOP)/lib/libz.a \
 	$(TOP)/lib/liblzma.a \
 	$(TOP)/lib/libpng.a \
-	$(TOP)/lib/libgif.a
+	$(TOP)/lib/libgif.a \
+	$(TOP)/lib/libjpeg.a
 
 tesseract-mingw-master.tar.gz: download.sh
 	./download.sh
@@ -60,3 +61,12 @@ $(TOP)/lib/libgif.a: giflib-5.1.4.tar.gz
 	cd $($@_DIR) && ./configure --prefix=$(TOP)
 	cd $($@_DIR) && make
 	cd $($@_DIR) && make install
+	
+$(TOP)/lib/libjpeg.a: jpeg-9b.tar.gz
+	$(eval $@_DIR := $(basename $(basename $(notdir $<))) )
+	rm -rf $($@_DIR)
+	tar xf $<
+	cd $($@_DIR) && ./configure --prefix=$(TOP)
+	cd $($@_DIR) && make
+	cd $($@_DIR) && make install
+	
