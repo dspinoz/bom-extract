@@ -1,0 +1,11 @@
+diff -ruN giflib-5.1.4.orig//configure.ac giflib-5.1.4/configure.ac
+--- giflib-5.1.4.orig//configure.ac	2016-04-03 02:05:30 +1030
++++ giflib-5.1.4/configure.ac	2016-04-05 21:10:11 +0930
+@@ -11,7 +11,6 @@
+ AM_CONFIG_HEADER(config.h)
+ 
+ dnl Checks for programs.
+-AM_PROG_AR
+ AC_PROG_LIBTOOL
+ AC_PROG_CC
+ AC_PROG_CPP

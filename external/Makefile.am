@@ -5,7 +5,8 @@ bin_SCRIPTS = $(TOP)/bin/tesseract.exe \
 	$(TOP)/lib/libpthread.a \
 	$(TOP)/lib/libz.a \
 	$(TOP)/lib/liblzma.a \
-	$(TOP)/lib/libpng.a
+	$(TOP)/lib/libpng.a \
+	$(TOP)/lib/libgif.a
 
 tesseract-mingw-master.tar.gz: download.sh
 	./download.sh
@@ -47,5 +48,15 @@ $(TOP)/lib/libpng.a: libpng-1.5.26.tar.gz
 	rm -rf $($@_DIR)
 	tar xf $<
 	cd $($@_DIR) && ./configure --prefix=$(TOP) CFLAGS=-I$(TOP) LDFLAGS=-L$(TOP)
+	cd $($@_DIR) && make
+	cd $($@_DIR) && make install
+
+$(TOP)/lib/libgif.a: giflib-5.1.4.tar.gz
+	$(eval $@_DIR := $(basename $(basename $(notdir $<))) )
+	rm -rf $($@_DIR)
+	tar xf $<
+	cd $($@_DIR) && patch -p1 < ../giflib.patch
+	cd $($@_DIR) && autoreconf --install --force
+	cd $($@_DIR) && ./configure --prefix=$(TOP)
 	cd $($@_DIR) && make
 	cd $($@_DIR) && make install
