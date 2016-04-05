@@ -8,7 +8,8 @@ bin_SCRIPTS = $(TOP)/bin/tesseract.exe \
 	$(TOP)/lib/libpng.a \
 	$(TOP)/lib/libgif.a \
 	$(TOP)/lib/libjpeg.a \
-	$(TOP)/lib/libjbig.a
+	$(TOP)/lib/libjbig.a \
+	$(TOP)/lib/libtiff.a
 
 tesseract-mingw-master.tar.gz: download.sh
 	./download.sh
@@ -71,7 +72,6 @@ $(TOP)/lib/libjpeg.a: jpeg-9b.tar.gz
 	cd $($@_DIR) && make
 	cd $($@_DIR) && make install
 	
-
 $(TOP)/lib/libjbig.a: jbigkit-2.1.tar.gz
 	$(eval $@_DIR := $(basename $(basename $(notdir $<))) )
 	rm -rf $($@_DIR)
@@ -80,3 +80,11 @@ $(TOP)/lib/libjbig.a: jbigkit-2.1.tar.gz
 	cd $($@_DIR) && cp -v libjbig/libjbig.a $(TOP)/lib/libjbig.a
 	cd $($@_DIR) && cp -v libjbig/jbig.h $(TOP)/include/jbig.h
 	
+$(TOP)/lib/libtiff.a: tiff-3.9.5.tar.gz
+	$(eval $@_DIR := $(basename $(basename $(notdir $<))) )
+	rm -rf $($@_DIR)
+	tar xf $<
+	cd $($@_DIR) && ./autogen.sh
+	cd $($@_DIR) && ./configure --prefix=$(TOP) CFLAGS=-I$(TOP) LDFLAGS=-L$(TOP)
+	cd $($@_DIR) && make
+	cd $($@_DIR) && make install
