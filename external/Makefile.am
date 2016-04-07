@@ -11,9 +11,10 @@ bin_SCRIPTS = $(TOP)/bin/tesseract.exe \
 	$(TOP)/lib/libjbig.a \
 	$(TOP)/lib/libtiff.a \
 	$(TOP)/lib/libwebp.a \
-	$(TOP)/lib/liblept.a
+	$(TOP)/lib/liblept.a \
+	$(TOP)/lib/libtesseract.a
 
-tesseract-mingw-master.tar.gz: download.sh
+sources.txt:
 	./download.sh
 
 $(TOP)/bin/tesseract.exe: tesseract-mingw-master.tar.gz
@@ -111,3 +112,18 @@ $(TOP)/lib/liblept.a: leptonica-1.73.tar.gz
 	cd $($@_DIR) && ./configure --prefix=$(TOP)
 	cd $($@_DIR) && make
 	cd $($@_DIR) && make install
+
+tesseract-3.04.01.tar.gz: download.sh
+	./download.sh
+  
+$(TOP)/lib/libtesseract.a: $(TOP)/lib/libtiff.a $(TOP)/lib/liblept.a tesseract-3.04.01.tar.gz
+	$(eval $@_TAR := $(filter %.tar.gz, $^))
+	$(eval $@_DIR := $(basename $(basename $(notdir $($@_TAR)))) )
+	rm -rf $($@_DIR)
+	tar xf $($@_TAR)
+	cd $($@_DIR) && autogen.sh
+	cd $($@_DIR) && ./configure --prefix=$(TOP) CPPFLAGS=-I$(TOP)/include LDFLAGS=-L$(TOP)/lib
+	cd $($@_DIR) && make
+	cd $($@_DIR) && make install
+  
+  
