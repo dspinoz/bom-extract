@@ -48,12 +48,12 @@ $(TOP)/lib/liblzma.a: xz-5.2.2.tar.gz
 	cd $($@_DIR) && make
 	cd $($@_DIR) && make install
 
-# libz
-$(TOP)/lib/libpng.a: libpng-1.5.26.tar.gz
-	$(eval $@_DIR := $(basename $(basename $(notdir $<))) )
+$(TOP)/lib/libpng.a: $(TOP)/lib/libz.a libpng-1.5.26.tar.gz
+	$(eval $@_TAR := $(filter %.tar.gz, $^))
+	$(eval $@_DIR := $(basename $(basename $(notdir $($@_TAR)))) )
 	rm -rf $($@_DIR)
-	tar xf $<
-	cd $($@_DIR) && ./configure --prefix=$(TOP) CFLAGS=-I$(TOP) LDFLAGS=-L$(TOP)
+	tar xf $($@_TAR)
+	cd $($@_DIR) && ./configure --prefix=$(TOP) CFLAGS=-I$(TOP)/include LDFLAGS=-L$(TOP)/lib
 	cd $($@_DIR) && make
 	cd $($@_DIR) && make install
 
