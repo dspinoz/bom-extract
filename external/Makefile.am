@@ -121,8 +121,9 @@ $(TOP)/lib/libtesseract.a: $(TOP)/lib/libtiff.a $(TOP)/lib/liblept.a tesseract-3
 	$(eval $@_DIR := $(basename $(basename $(notdir $($@_TAR)))) )
 	rm -rf $($@_DIR)
 	tar xf $($@_TAR)
+	cd $($@_DIR) && patch -p1 < ../tesseract.patch
 	cd $($@_DIR) && autogen.sh
-	cd $($@_DIR) && ./configure --prefix=$(TOP) CPPFLAGS=-I$(TOP)/include LDFLAGS=-L$(TOP)/lib
+	cd $($@_DIR) && ./configure --prefix=$(TOP) LIBLEPT_HEADERSDIR=$(TOP)/include CPPFLAGS=-I$(TOP)/include LDFLAGS=-L$(TOP)/lib
 	cd $($@_DIR) && make
 	cd $($@_DIR) && make install
   
