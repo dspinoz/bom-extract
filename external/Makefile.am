@@ -109,19 +109,20 @@ $(TOP)/lib/libwebp.a: libwebp-0.5.0.tar.gz
 	cd $($@_DIR) && make
 	cd $($@_DIR) && make install
 	
-$(TOP)/lib/liblept.a: leptonica-1.73.tar.gz
-	$(eval $@_DIR := $(basename $(basename $(notdir $<))) )
+$(TOP)/lib/liblept.a: $(TOP)/lib/libtiff.a $(TOP)/lib/libjpeg.a $(TOP)/lib/libpng.a  $(TOP)/lib/libtiff.a $(TOP)/lib/libz.a $(TOP)/lib/libwebp.a $(TOP)/lib/libgif.a leptonica-1.73.tar.gz
+	$(eval $@_TAR := $(filter %.tar.gz, $^))
+	$(eval $@_DIR := $(basename $(basename $(notdir $($@_TAR)))) )
 	rm -rf $($@_DIR)
-	tar xf $<
+	tar xf $($@_TAR)
 	cd $($@_DIR) && ./autobuild
-	cd $($@_DIR) && ./configure --prefix=$(TOP)
+	cd $($@_DIR) && ./configure --prefix=$(TOP) CPPFLAGS=-I$(TOP)/include LDFLAGS=-L$(TOP)/lib
 	cd $($@_DIR) && make
 	cd $($@_DIR) && make install
 
 tesseract-3.04.01.tar.gz: download.sh
 	./download.sh
   
-$(TOP)/lib/libtesseract.a: $(TOP)/lib/libtiff.a $(TOP)/lib/liblept.a tesseract-3.04.01.tar.gz
+$(TOP)/lib/libtesseract.a: $(TOP)/lib/liblept.a tesseract-3.04.01.tar.gz
 	$(eval $@_TAR := $(filter %.tar.gz, $^))
 	$(eval $@_DIR := $(basename $(basename $(notdir $($@_TAR)))) )
 	rm -rf $($@_DIR)
