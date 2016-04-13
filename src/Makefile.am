@@ -2,7 +2,7 @@ SUBDIRS = common
 
 bin_PROGRAMS = hello
 hello_SOURCES = main.cpp
-hello_CXXFLAGS = -D__BLOB_T_DEFINED -I../external/dist/include -Icommon 
+hello_CXXFLAGS =  -I../external/dist/include -Icommon 
 hello_LDFLAGS = -L../external/dist/lib -L/usr/lib
 hello_LDADD = common/libcommon.a \
 	../external/dist/lib/libtesseract.a \
@@ -11,7 +11,7 @@ hello_LDADD = common/libcommon.a \
 	../external/dist/lib/libjpeg.a \
 	../external/dist/lib/libpng.a \
 	../external/dist/lib/libtiff.a \
-	../external/dist/lib/libtiffxx.a \
+	../external/dist/lib/libtiff.a \
 	../external/dist/lib/libjbig.a \
 	../external/dist/lib/libwebp.a \
 	-lz -lws2_32
