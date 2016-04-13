@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <winsock.h>
 
 #include <tesseract/baseapi.h>
 #include <leptonica/allheaders.h>
