@@ -28,8 +28,11 @@ export PATH=$PATH:/c/Program\ Files\ \(x86\)/Git/bin/
 * Restart shell
 * which git
 
-### Fetching Source and Building
+### Fetching Source, Building and Installing
 * Run msys.bat
 * git clone https://github.com/dspinoz/bom-extract
+* cd bom-extract
 * autoreconf -i
+* ./configure --prefix=`pwd`/install
 * make
+* make install
