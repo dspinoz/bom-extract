@@ -1,8 +1,7 @@
 
 TOP=$(shell pwd)/dist
 
-bin_SCRIPTS = $(TOP)/bin/tesseract.exe \
-	$(TOP)/lib/libpthread.a \
+bin_SCRIPTS = $(TOP)/lib/libpthread.a \
 	$(TOP)/lib/libz.a \
 	$(TOP)/lib/liblzma.a \
 	$(TOP)/lib/libpng.a \
@@ -17,6 +16,12 @@ bin_SCRIPTS = $(TOP)/bin/tesseract.exe \
 sources.txt:
 	./download.sh
 
+.PHONY: $(TOP) $(TOP)/bin $(TOP)/include $(TOP)/lib
+  
+$(TOP): all
+	mkdir -p $(TOP)/bin $(TOP)/include $(TOP)/lib
+  
+# Disabled
 $(TOP)/bin/tesseract.exe: tesseract-mingw-master.tar.gz
 	rm -rf tesseract-mingw-master $(TOP)
 	$(eval $@_DIR := $(basename $(basename $(notdir $<))) )
