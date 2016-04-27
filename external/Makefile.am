@@ -11,7 +11,8 @@ bin_SCRIPTS = $(TOP)/lib/libpthread.a \
 	$(TOP)/lib/libtiff.a \
 	$(TOP)/lib/libwebp.a \
 	$(TOP)/lib/liblept.a \
-	$(TOP)/lib/libtesseract.a
+	$(TOP)/lib/libtesseract.a \
+	$(TOP)/bin/cmake.exe
 
 sources.txt:
 	./download.sh
@@ -133,4 +134,12 @@ $(TOP)/lib/libtesseract.a: $(TOP)/lib/liblept.a tesseract-3.04.01.tar.gz
 	cd $($@_DIR) && make
 	cd $($@_DIR) && make install
   
-  
+$(TOP)/bin/cmake.exe: cmake-3.5.2-win32-x86.zip
+	$(eval $@_ZIP := $(filter %.zip, $^))
+	$(eval $@_DIR := $(basename $(notdir $($@_ZIP))) )
+	rm -rf $($@_DIR)
+	unzip -q $($@_ZIP)
+	cd $($@_DIR) && cp bin/* $(TOP)/bin/
+	cd $($@_DIR) && cp -r share/cmake-3.5 $(TOP)/share/
+
+
