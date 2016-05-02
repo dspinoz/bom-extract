@@ -12,7 +12,9 @@ bin_SCRIPTS = $(TOP)/lib/libpthread.a \
 	$(TOP)/lib/libwebp.a \
 	$(TOP)/lib/liblept.a \
 	$(TOP)/lib/libtesseract.a \
-	$(TOP)/bin/cmake.exe
+	$(TOP)/bin/cmake.exe \
+	$(TOP)/lib/libfreetype.a \
+	$(TOP)/lib/libpodofo.a
 
 sources.txt:
 	./download.sh
@@ -134,12 +136,34 @@ $(TOP)/lib/libtesseract.a: $(TOP)/lib/liblept.a tesseract-3.04.01.tar.gz
 	cd $($@_DIR) && make
 	cd $($@_DIR) && make install
   
-$(TOP)/bin/cmake.exe: cmake-3.5.2-win32-x86.zip
+$(TOP)/bin/cmake.exe: cmake-2.8.3-win32-x86.zip
 	$(eval $@_ZIP := $(filter %.zip, $^))
 	$(eval $@_DIR := $(basename $(notdir $($@_ZIP))) )
 	rm -rf $($@_DIR)
 	unzip -q $($@_ZIP)
 	cd $($@_DIR) && cp bin/* $(TOP)/bin/
-	cd $($@_DIR) && cp -r share/cmake-3.5 $(TOP)/share/
+	cd $($@_DIR) && cp -r share/cmake-2.8 $(TOP)/share/
+
+$(TOP)/lib/libfreetype.a: $(TOP)/lib/libpng.a $(TOP)/lib/libz.a freetype-2.6.3.tar.gz
+	$(eval $@_TAR := $(filter %.tar.gz, $^))
+	$(eval $@_DIR := $(basename $(basename $(notdir $($@_TAR)))) )
+	rm -rf $($@_DIR)
+	tar xf $($@_TAR)
+	cd $($@_DIR) && autogen.sh
+	cd $($@_DIR) && ./configure --prefix=$(TOP) CPPFLAGS=-I$(TOP)/include LDFLAGS=-L$(TOP)/lib
+	cd $($@_DIR) && make
+	cd $($@_DIR) && make install
+  
+# use podofo-0.9.1 as libcrypt is not a mandatory dependency
+# use cmake-2.8.3 as has "windres.exe -- W invalid option" error
+$(TOP)/lib/libpodofo.a: $(TOP)/bin/cmake.exe $(TOP)/lib/libtiff.a $(TOP)/lib/libjpeg.a $(TOP)/lib/libpng.a  $(TOP)/lib/libfreetype.a $(TOP)/bin/cmake.exe podofo-0.9.1.tar.gz
+	$(eval $@_TAR := $(filter %.tar.gz, $^))
+	$(eval $@_DIR := $(basename $(basename $(notdir $($@_TAR)))) )
+	rm -rf $($@_DIR)
+	tar xf $($@_TAR)
+	cd $($@_DIR) && mkdir build
+	cd $($@_DIR) && cd build && cmake -G "MSYS Makefiles" -DCMAKE_INSTALL_PREFIX:PATH=$(TOP) -DCMAKE_INCLUDE_PATH=$(TOP)/include -DCMAKE_INCLUDE_PATH=$(TOP)/include/freetype2 -DCMAKE_LIBRARY_PATH=$(TOP)/lib -DPODOFO_BUILD_SHARED:BOOL=FALSE ..
+	cd $($@_DIR) && cd build && make
+	cd $($@_DIR) && cd build && make install
 
 
