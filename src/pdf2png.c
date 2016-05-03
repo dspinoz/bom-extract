@@ -86,8 +86,18 @@ int main(int argc, char **argv)
 	fz_pre_rotate(&ctm, rotate);
 
 	/* Render page to an RGB pixmap. */
+	//pix = fz_new_pixmap_from_page_number(ctx, doc, page_number, &ctm, fz_device_rgb(ctx));
+  
+	fz_page *page;
+	//fz_pixmap *pix;
+  fz_colorspace *cs = fz_device_rgb(ctx);
+
+	page = fz_load_page(ctx, doc, page_number);
+  
 	fz_try(ctx)
-		pix = fz_new_pixmap_from_page_number(ctx, doc, page_number, &ctm, fz_device_rgb(ctx));
+		pix = fz_new_pixmap_from_page(ctx, page, &ctm, cs);
+	fz_always(ctx)
+		fz_drop_page(ctx, page);
 	fz_catch(ctx)
 	{
 		fprintf(stderr, "cannot render page: %s\n", fz_caught_message(ctx));
