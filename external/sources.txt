@@ -13,3 +13,4 @@ tesseract-3.04.01.tar.gz https://github.com/tesseract-ocr/tesseract/archive/3.04
 cmake-2.8.3-win32-x86.zip https://cmake.org/files/v2.8/cmake-2.8.3-win32-x86.zip
 podofo-0.9.1.tar.gz https://sourceforge.net/projects/podofo/files/podofo/0.9/podofo-0.9.1.tar.gz/download
 freetype-2.6.3.tar.gz http://download.savannah.gnu.org/releases/freetype/freetype-2.6.3.tar.gz
+mupdf-1.9a-source.tar.gz http://mupdf.com/downloads/mupdf-1.9a-source.tar.gz

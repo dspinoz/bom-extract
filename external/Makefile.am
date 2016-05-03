@@ -14,7 +14,8 @@ bin_SCRIPTS = $(TOP)/lib/libpthread.a \
 	$(TOP)/lib/libtesseract.a \
 	$(TOP)/bin/cmake.exe \
 	$(TOP)/lib/libfreetype.a \
-	$(TOP)/lib/libpodofo.a
+	$(TOP)/lib/libpodofo.dll.a \
+	$(TOP)/lib/libmupdf.a
 
 sources.txt:
 	./download.sh
@@ -156,7 +157,7 @@ $(TOP)/lib/libfreetype.a: $(TOP)/lib/libpng.a $(TOP)/lib/libz.a freetype-2.6.3.t
   
 # use podofo-0.9.1 as libcrypt is not a mandatory dependency
 # use cmake-2.8.3 as has "windres.exe -- W invalid option" error
-$(TOP)/lib/libpodofo.a: $(TOP)/bin/cmake.exe $(TOP)/lib/libtiff.a $(TOP)/lib/libjpeg.a $(TOP)/lib/libpng.a  $(TOP)/lib/libfreetype.a $(TOP)/bin/cmake.exe podofo-0.9.1.tar.gz
+$(TOP)/lib/libpodofo.dll.a: $(TOP)/bin/cmake.exe $(TOP)/lib/libtiff.a $(TOP)/lib/libjpeg.a $(TOP)/lib/libpng.a  $(TOP)/lib/libfreetype.a $(TOP)/bin/cmake.exe podofo-0.9.1.tar.gz
 	$(eval $@_TAR := $(filter %.tar.gz, $^))
 	$(eval $@_DIR := $(basename $(basename $(notdir $($@_TAR)))) )
 	rm -rf $($@_DIR)
@@ -166,4 +167,13 @@ $(TOP)/lib/libpodofo.a: $(TOP)/bin/cmake.exe $(TOP)/lib/libtiff.a $(TOP)/lib/lib
 	cd $($@_DIR) && cd build && make
 	cd $($@_DIR) && cd build && make install
 
+$(TOP)/lib/libmupdf.a: mupdf-1.9a-source.tar.gz
+	$(eval $@_TAR := $(filter %.tar.gz, $^))
+	$(eval $@_DIR := $(basename $(basename $(notdir $($@_TAR)))) )
+	rm -rf $($@_DIR)
+	tar xf $($@_TAR)
+	cd $($@_DIR) && patch -p1 < ../mupdf.patch
+	cd $($@_DIR) && make prefix=$(TOP) HAVE_X11=no HAVE_GLFW=no CC=gcc build=release
+	cd $($@_DIR) && cp build/release/libmupdf.a build/release/libmupdfthird.a $(TOP)/lib/
+	cd $($@_DIR) && cp build/release/mutool.exe $(TOP)/bin/
 
