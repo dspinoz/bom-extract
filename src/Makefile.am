@@ -1,6 +1,7 @@
 SUBDIRS = common
 
-bin_PROGRAMS = hello
+bin_PROGRAMS = hello pdf2png
+
 hello_SOURCES = main.cpp
 hello_CXXFLAGS =  -I../external/dist/include -Icommon 
 hello_LDFLAGS = -L../external/dist/lib -L/usr/lib
@@ -16,6 +17,12 @@ hello_LDADD = common/libcommon.a \
 	../external/dist/lib/libwebp.a \
 	-lz -lws2_32
 
+pdf2png_SOURCES = pdf2png.c
+pdf2png_CFLAGS =  -I../external/dist/include
+pdf2png_LDFLAGS = -L../external/dist/lib -L/usr/lib
+pdf2png_LDADD = ../external/dist/lib/libmupdf.a \
+	../external/dist/lib/libmupdfthird.a 
+  
 check_SCRIPTS = greptest.sh
 TESTS = $(check_SCRIPTS)
 

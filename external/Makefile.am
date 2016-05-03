@@ -174,6 +174,6 @@ $(TOP)/lib/libmupdf.a: mupdf-1.9a-source.tar.gz
 	tar xf $($@_TAR)
 	cd $($@_DIR) && patch -p1 < ../mupdf.patch
 	cd $($@_DIR) && make prefix=$(TOP) HAVE_X11=no HAVE_GLFW=no CC=gcc build=release
-	cd $($@_DIR) && cp build/release/libmupdf.a build/release/libmupdfthird.a $(TOP)/lib/
-	cd $($@_DIR) && cp build/release/mutool.exe $(TOP)/bin/
+	cd $($@_DIR) && make prefix=$(TOP) HAVE_X11=no HAVE_GLFW=no CC=gcc build=release install
+
 
