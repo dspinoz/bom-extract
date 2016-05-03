@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 
 	input = argv[1];
 	page_number = atoi(argv[2]) - 1;
-	zoom = argc > 3 ? atof(argv[3]) : 100;
+	zoom = argc > 3 ? atof(argv[3]) : 100; // add more zoom to increase dpi
 	rotate = argc > 4 ? atof(argv[4]) : 0;
 
 	/* Create a context to hold the exception stack and various caches. */
