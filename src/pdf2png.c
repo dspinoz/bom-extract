@@ -94,12 +94,30 @@ int main(int argc, char **argv)
 
 	page = fz_load_page(ctx, doc, page_number);
   
+	fz_rect rect;
+	fz_irect irect;
+	fz_device *dev;
+
+	fz_bound_page(ctx, page, &rect);
+	fz_transform_rect(&rect, &ctm);
+	fz_round_rect(&irect, &rect);
+
+	pix = fz_new_pixmap_with_bbox(ctx, cs, &irect);
+  fz_clear_pixmap_with_value(ctx, pix, 0xFF);
+          
 	fz_try(ctx)
-		pix = fz_new_pixmap_from_page(ctx, page, &ctm, cs);
+	{
+		dev = fz_new_draw_device(ctx, pix);
+		fz_run_page(ctx, page, dev, &ctm, NULL);
+	}
 	fz_always(ctx)
+	{
+		fz_drop_device(ctx, dev);
 		fz_drop_page(ctx, page);
+	}
 	fz_catch(ctx)
 	{
+		fz_drop_pixmap(ctx, pix);
 		fprintf(stderr, "cannot render page: %s\n", fz_caught_message(ctx));
 		fz_drop_document(ctx, doc);
 		fz_drop_context(ctx);
