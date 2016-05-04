@@ -56,7 +56,9 @@ int main(int argc, char **argv)
   tAPI->SetImage(pix);
 
   // Optional: set rectangle to OCR
-  tAPI->SetRectangle(30, 90, 600, 173);
+  //BUILD OF MATERIALS section when rendered at 600 zoom
+  int x1 = 5086, y1 = 175, x2 = 6835, y2 = 4165;
+  tAPI->SetRectangle(x1, y1, x2-x1, y2-y1);
 
   // run ocr
   char* outText = tAPI->GetUTF8Text();
