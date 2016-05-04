@@ -1,7 +1,7 @@
 
 TOP=$(shell pwd)/dist
 
-bin_SCRIPTS = $(TOP)/lib/libpthread.a \
+bin_SCRIPTS = $(TOP) $(TOP)/lib/libpthread.a \
 	$(TOP)/lib/libz.a \
 	$(TOP)/lib/liblzma.a \
 	$(TOP)/lib/libpng.a \
@@ -20,10 +20,10 @@ bin_SCRIPTS = $(TOP)/lib/libpthread.a \
 sources.txt:
 	./download.sh
 
-.PHONY: $(TOP) $(TOP)/bin $(TOP)/include $(TOP)/lib
+.PHONY: $(TOP)
   
-$(TOP): all
-	mkdir -p $(TOP)/bin $(TOP)/include $(TOP)/lib
+$(TOP):
+	mkdir -p $(TOP)/bin $(TOP)/include $(TOP)/lib $(TOP)/share
   
 # Disabled
 $(TOP)/bin/tesseract.exe: tesseract-mingw-master.tar.gz
@@ -34,6 +34,9 @@ $(TOP)/bin/tesseract.exe: tesseract-mingw-master.tar.gz
 	mv $($@_DIR) $(TOP)
 	touch $(TOP)/bin/tesseract.exe
 	
+pthreads-w32-2-8-0-release.tar.gz: download.sh
+	./download.sh
+
 $(TOP)/lib/libpthread.a: pthreads-w32-2-8-0-release.tar.gz
 	$(eval $@_DIR := $(basename $(basename $(notdir $<))) )
 	rm -rf $($@_DIR)
