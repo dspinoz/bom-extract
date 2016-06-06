@@ -11,7 +11,7 @@ int main(int argc, char **argv)
   fprintf(stdout, "Hello World");
   
   const char *language = "eng";
-  const char *datapath = "../tessdata/";
+  const char *datapath = "./tessdata/";
   const char* filename = NULL;
   PIX  *pix;
 
